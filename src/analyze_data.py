@@ -1,5 +1,7 @@
 import pandas as pd
 from db_connect import create_connection
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 def load_data():
     conn = create_connection()
@@ -31,7 +33,37 @@ def clean_and_merge(weather_df, mood_df):
     print(f"✅ Merged dataset has {len(merged_df)} rows and {merged_df.shape[1]} columns.")
     return merged_df
 
+def analyze_correlations(merged_df):
+    """Compute and visualize correlations between mood, lifestyle, and weather features."""
+
+    # Select numeric columns for correlation
+    numeric_cols = [
+        "mood_score", "energy_level", "sleep_hours",
+        "stress_level", "productivity", "temperature",
+        "feels_like", "humidity", "clouds", "wind_speed"
+    ]
+    df_corr = merged_df[numeric_cols].corr()
+
+    # Display correlation matrix
+    print("\n📊 Correlation matrix:\n", df_corr.round(2))
+
+    # Plot heatmap
+    plt.figure(figsize=(10, 6))
+    sns.heatmap(df_corr, annot=True, cmap="coolwarm", fmt=".2f")
+    plt.title("Correlation Matrix: Mood vs Weather")
+    plt.tight_layout()
+    plt.show()
+
+    # Example scatterplot: mood vs temperature
+    plt.figure(figsize=(7, 5))
+    sns.scatterplot(x="temperature", y="mood_score", data=merged_df)
+    plt.title("Mood vs Temperature")
+    plt.xlabel("Temperature (°C)")
+    plt.ylabel("Mood Score")
+    plt.tight_layout()
+    plt.show()
+
 if __name__ == "__main__":
     weather, mood = load_data()
     merged = clean_and_merge(weather, mood)
-    print(merged.head())
+    analyze_correlations(merged)
