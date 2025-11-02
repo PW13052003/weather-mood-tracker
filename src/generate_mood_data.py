@@ -66,5 +66,5 @@ def insert_fake_data_to_db(fake_data):
 
 
 if __name__ == "__main__":
-    fake_records = generate_fake_mood_data(num_days=49900)  # 2 years of data
+    fake_records = generate_fake_mood_data(num_days=49980)  # 2 years of data
     insert_fake_data_to_db(fake_records)
