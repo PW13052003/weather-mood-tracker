@@ -5,7 +5,7 @@ from db_connect import create_connection
 
 fake = Faker()
 
-def generate_fake_mood_data(num_days=365):
+def generate_fake_mood_data(num_days):
     """Generate a list of dictionaries with fake mood records for num_days."""
     today = date.today()
     data = []
@@ -66,5 +66,5 @@ def insert_fake_data_to_db(fake_data):
 
 
 if __name__ == "__main__":
-    fake_records = generate_fake_mood_data(num_days=49980)  # 2 years of data
+    fake_records = generate_fake_mood_data(num_days=50000)
     insert_fake_data_to_db(fake_records)
